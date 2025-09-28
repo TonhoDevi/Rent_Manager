@@ -5,7 +5,7 @@ import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.models.Inquilino;
 
 public class DtoAluguel {
-    private Long id;
+    private Integer id;
     private Double valor;
     private String dataVencimento;
     private Imovel imovelId;
@@ -14,7 +14,7 @@ public class DtoAluguel {
 
     public  DtoAluguel(){};
 
-    public DtoAluguel(Long id, Double valor, String dataVencimento, Imovel imovelId, Inquilino inquilinoId) {
+    public DtoAluguel(Integer id, Double valor, String dataVencimento, Imovel imovelId, Inquilino inquilinoId) {
         this.id = id;
         this.valor = valor;
         this.dataVencimento = dataVencimento;
@@ -30,11 +30,11 @@ public class DtoAluguel {
     }
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

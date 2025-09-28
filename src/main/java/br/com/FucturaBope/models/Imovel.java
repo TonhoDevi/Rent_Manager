@@ -10,7 +10,7 @@ public class Imovel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String nome;
     private String descricao;
 
@@ -20,17 +20,17 @@ public class Imovel {
     public Imovel() {
     }
 
-    public Imovel(Long id, String nome, String descricao) {
+    public Imovel(Integer id, String nome, String descricao) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,11 +50,11 @@ public class Imovel {
         this.descricao = descricao;
     }
 
-    public Inquilino getInquilinos() {
+    public Inquilino getInquilino() {
         return inquilino;
     }
 
-    public void setInquilinos(Inquilino inquilinos) {
-        this.inquilino = inquilinos;
+    public void setInquilino(Inquilino inquilino) {
+        this.inquilino = inquilino;
     }
 }

@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DtoImovel {
-    private Long id;
+    private Integer id;
     private String nome;
     private String descricao;
 
-    private Inquilino inquilino;;
+    private Inquilino inquilino;
 
     public DtoImovel() {
     }
 
-    public DtoImovel(Long id, String nome, String descricao) {
+    public DtoImovel(Integer id, String nome, String descricao) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -27,11 +27,11 @@ public class DtoImovel {
         this.descricao = imovel.getDescricao();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,11 +51,11 @@ public class DtoImovel {
         this.descricao = descricao;
     }
 
-    public Inquilino getInquilinos() {
+    public Inquilino getInquilino() {
         return inquilino;
     }
 
-    public void setInquilinos(Inquilino inquilinos) {
-        this.inquilino = inquilinos;
+    public void setInquilino(Inquilino inquilino) {
+        this.inquilino = inquilino;
     }
 }

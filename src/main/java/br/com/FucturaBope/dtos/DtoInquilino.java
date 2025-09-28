@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DtoInquilino {
-    private Long id;
+    private Integer id;
     private String nome;
     private String email;
     private List<Imovel> imovel = new ArrayList<>();
@@ -14,7 +14,7 @@ public class DtoInquilino {
     public DtoInquilino() {
     }
 
-    public DtoInquilino(Long id, String nome, String email, List<Imovel> imovel) {
+    public DtoInquilino(Integer id, String nome, String email, List<Imovel> imovel) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -28,11 +28,11 @@ public class DtoInquilino {
         this.imovel = inquilino.getImovel();
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

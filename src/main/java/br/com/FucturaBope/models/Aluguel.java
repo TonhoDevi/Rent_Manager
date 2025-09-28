@@ -12,7 +12,7 @@ import java.sql.Date;
 public class Aluguel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private Double valor;
     private String dataVencimento;
     private Imovel imovelId;
@@ -21,7 +21,7 @@ public class Aluguel {
 
     public  Aluguel(){};
 
-    public Aluguel(Long id, Double valor, String dataVencimento, Imovel imovelId, Inquilino inquilinoId) {
+    public Aluguel(Integer id, Double valor, String dataVencimento, Imovel imovelId, Inquilino inquilinoId) {
         this.id = id;
         this.valor = valor;
         this.dataVencimento = dataVencimento;
@@ -29,11 +29,11 @@ public class Aluguel {
         this.inquilinoId = inquilinoId;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

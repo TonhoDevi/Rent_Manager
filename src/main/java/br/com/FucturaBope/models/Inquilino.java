@@ -12,7 +12,7 @@ public class Inquilino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String nome;
     private String email;
 
@@ -23,18 +23,18 @@ public class Inquilino {
     public Inquilino() {
     }
 
-    public Inquilino(Long id, String nome, String email, List<Imovel> imovel) {
+    public Inquilino(Integer id, String nome, String email, List<Imovel> imovel) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.imovel = imovel;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
