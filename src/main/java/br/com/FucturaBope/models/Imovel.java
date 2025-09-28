@@ -14,8 +14,8 @@ public class Imovel {
     private String nome;
     private String descricao;
 
-    @OneToMany(mappedBy = "inquilino")
-    private List<Inquilino> inquilino = new ArrayList<>();
+    @ManyToOne
+    private Inquilino inquilino;
 
     public Imovel() {
     }
@@ -50,11 +50,11 @@ public class Imovel {
         this.descricao = descricao;
     }
 
-    public List<Inquilino> getInquilinos() {
+    public Inquilino getInquilinos() {
         return inquilino;
     }
 
-    public void setInquilinos(List<Inquilino> inquilinos) {
+    public void setInquilinos(Inquilino inquilinos) {
         this.inquilino = inquilinos;
     }
 }

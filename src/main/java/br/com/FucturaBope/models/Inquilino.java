@@ -3,6 +3,9 @@ package br.com.FucturaBope.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 public class Inquilino {
@@ -14,18 +17,16 @@ public class Inquilino {
     private String email;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Imovel imovel;
+    @OneToMany(mappedBy = "imovel")
+    private List<Imovel> imovel = new ArrayList<>();
 
     public Inquilino() {
     }
 
-    public Inquilino(Long id, String nome, String email, Imovel imovel) {
+    public Inquilino(Long id, String nome, String email, List<Imovel> imovel) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-
         this.imovel = imovel;
     }
 
@@ -53,11 +54,11 @@ public class Inquilino {
         this.email = email;
     }
 
-    public Imovel imovel() {
+    public List<Imovel> getImovel() {
         return imovel;
     }
 
-    public void setCategoria(Imovel imovel) {
+    public void setImovel(List<Imovel> imovel) {
         this.imovel = imovel;
     }
 }
