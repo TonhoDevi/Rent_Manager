@@ -1,5 +1,6 @@
 package br.com.FucturaBope.dtos;
 
+import br.com.FucturaBope.models.Aluguel;
 import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.models.Inquilino;
 import java.util.ArrayList;
@@ -11,16 +12,18 @@ public class DtoImovel {
     private String descricao;
 
     private Inquilino inquilino;
+    private Aluguel aluguel;
 
     public DtoImovel() {
     }
 
-    public DtoImovel(Integer id, String nome, String descricao) {
+    public DtoImovel(Integer id, String nome, String descricao, Inquilino inquilino, Aluguel aluguel) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
+        this.inquilino = inquilino;
+        this.aluguel = aluguel;
     }
-
     public DtoImovel(Imovel imovel) {
         this.id = imovel.getId();
         this.nome = imovel.getNome();
@@ -57,5 +60,13 @@ public class DtoImovel {
 
     public void setInquilino(Inquilino inquilino) {
         this.inquilino = inquilino;
+    }
+
+    public Aluguel getAluguel() {
+        return aluguel;
+    }
+
+    public void setAluguel(Aluguel aluguel) {
+        this.aluguel = aluguel;
     }
 }

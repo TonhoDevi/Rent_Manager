@@ -15,7 +15,9 @@ public class Aluguel {
     private Integer id;
     private Double valor;
     private String dataVencimento;
+
     private Imovel imovelId;
+
     private Inquilino inquilinoId;
 
 

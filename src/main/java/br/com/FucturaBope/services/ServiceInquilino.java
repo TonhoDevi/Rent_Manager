@@ -3,28 +3,24 @@ package br.com.FucturaBope.services;
 import br.com.FucturaBope.exceptions.ObjectNotFoundException;
 import br.com.FucturaBope.models.Inquilino;
 import br.com.FucturaBope.repositorys.RepositoryInquilino;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ServiceInquilino {
-    private static final Logger logger = LoggerFactory.getLogger(ServiceInquilino.class);
 
     @Autowired
     private RepositoryInquilino inquilinoRepository;
 
     public Inquilino findById(Integer id) {
-        logger.info("Buscando inquilino com id: {}", id);
+
         Optional<Inquilino> inq = inquilinoRepository.findById(id);
         if (inq.isPresent()) {
-            logger.info("Inquilino encontrado: {}", inq.get());
             return inq.get();
         }
-        logger.warn("Inquilino não encontrada com o id: {}", id);
         throw new ObjectNotFoundException("Inquilino não encontrada com o id: " + id);
     }
 
