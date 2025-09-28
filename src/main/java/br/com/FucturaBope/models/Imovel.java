@@ -10,27 +10,27 @@ public class Imovel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String nome;
     private String descricao;
 
-    @OneToMany(mappedBy = "categoria")
+    @OneToMany(mappedBy = "inquilino")
     private List<Inquilino> inquilino = new ArrayList<>();
 
     public Imovel() {
     }
 
-    public Imovel(Integer id, String nome, String descricao) {
+    public Imovel(Long id, String nome, String descricao) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

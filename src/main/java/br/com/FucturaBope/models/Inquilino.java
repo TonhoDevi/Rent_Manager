@@ -5,12 +5,11 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "Inquilino")
 public class Inquilino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String nome;
     private String email;
 
@@ -22,7 +21,7 @@ public class Inquilino {
     public Inquilino() {
     }
 
-    public Inquilino(Integer id, String nome, String email, Imovel imovel) {
+    public Inquilino(Long id, String nome, String email, Imovel imovel) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -30,11 +29,11 @@ public class Inquilino {
         this.imovel = imovel;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
