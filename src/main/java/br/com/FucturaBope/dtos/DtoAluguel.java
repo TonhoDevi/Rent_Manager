@@ -3,18 +3,25 @@ package br.com.FucturaBope.dtos;
 import br.com.FucturaBope.models.Aluguel;
 import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.models.Inquilino;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
+import java.util.Date;
 
 public class DtoAluguel {
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     private Integer id;
     private Double valor;
-    private String dataVencimento;
+    private Date dataVencimento;
     private Imovel imovelId;
     private Inquilino inquilinoId;
 
 
     public  DtoAluguel(){};
 
-    public DtoAluguel(Integer id, Double valor, String dataVencimento, Imovel imovelId, Inquilino inquilinoId) {
+    public DtoAluguel(Integer id, Double valor, Date dataVencimento, Imovel imovelId, Inquilino inquilinoId) {
         this.id = id;
         this.valor = valor;
         this.dataVencimento = dataVencimento;
@@ -25,8 +32,8 @@ public class DtoAluguel {
         this.id = aluguel.getId();
         this.valor = aluguel.getValor();
         this.dataVencimento = aluguel.getDataVencimento();
-        this.imovelId = aluguel.getImovelId();
-        this.inquilinoId = aluguel.getInquilinoId();
+        this.imovelId = aluguel.getImovel();
+        this.inquilinoId = aluguel.getInquilino();
     }
 
 
@@ -46,11 +53,11 @@ public class DtoAluguel {
         this.valor = valor;
     }
 
-    public String getDataVencimento() {
+    public Date getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(String dataVencimento) {
+    public void setDataVencimento(Date dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 

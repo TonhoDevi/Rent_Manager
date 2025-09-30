@@ -2,10 +2,17 @@ package br.com.FucturaBope.dtos;
 
 import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.models.Inquilino;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DtoInquilino {
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     private Integer id;
     private String nome;
     private String email;

@@ -5,6 +5,8 @@ import br.com.FucturaBope.models.Aluguel;
 import br.com.FucturaBope.repositorys.RepositoryAluguel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,6 +14,15 @@ public class ServiceAluguel {
 
     @Autowired
     private RepositoryAluguel repositoryAluguel;
+
+
+    public List<Aluguel> findAll() {
+        List<Aluguel> list = repositoryAluguel.findAll();
+        if (!list.isEmpty()) {
+            return list;
+        }
+        throw new ObjectNotFoundException("Nenhum aluguel encontrado.");
+    }
 
     public Aluguel findById(Integer id) {
         Optional<Aluguel> aluguel = repositoryAluguel.findById(id);

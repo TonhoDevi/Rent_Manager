@@ -3,10 +3,11 @@ package br.com.FucturaBope.controllers;
 import br.com.FucturaBope.dtos.DtoImovel;
 import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.services.ServiceImovel;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,60 +18,41 @@ public class ControllerImovel {
     @Autowired
     private ServiceImovel serviceImovel;
 
-    // GET /imoveis/{id}
+    @Autowired
+    private ModelMapper modelMapper;
+
     @GetMapping("/{id}")
-    public ResponseEntity<DtoImovel> getById(@PathVariable Integer id) {
+    public ResponseEntity<DtoImovel> findById(@PathVariable Integer id) {
         Imovel imovel = serviceImovel.findById(id);
-        return ResponseEntity.ok(toDTO(imovel));
+        return ResponseEntity.ok().body(modelMapper.map(imovel, DtoImovel.class));
     }
 
-    // GET /imoveis/inquilino/{idInquilino}
-    @GetMapping("/inquilino/{idInquilino}")
-    public ResponseEntity<List<DtoImovel>> getByInquilino(@PathVariable Integer idInquilino) {
-        List<Imovel> lista = serviceImovel.findAllByInquilinoId(idInquilino);
-        List<DtoImovel> dtoList = lista.stream().map(this::toDTO).collect(Collectors.toList());
-        return ResponseEntity.ok(dtoList);
+    @GetMapping
+    public ResponseEntity<List<DtoImovel>> findAllByInquilino(@RequestParam(value = "inquilino", defaultValue = "0") Integer idInquilino) {
+        List<Imovel> list = serviceImovel.findAllByInquilinoId(idInquilino);
+        return ResponseEntity.ok().body(list.stream()
+                .map(obj -> modelMapper.map(obj, DtoImovel.class))
+                .collect(Collectors.toList()));
     }
 
-    // POST /imoveis
     @PostMapping
-    public ResponseEntity<DtoImovel> create(@RequestBody DtoImovel dto) {
-        Imovel imovel = fromDTO(dto);
-        Imovel criado = serviceImovel.save(dto.getInquilino().getId(), imovel);
-        return new ResponseEntity<>(toDTO(criado), HttpStatus.CREATED);
+    public ResponseEntity<DtoImovel> save(@RequestParam(value = "inquilino", defaultValue = "0") Integer idInquilino,
+                                          @RequestBody DtoImovel imovelDto) {
+        Imovel imovel = serviceImovel.save(idInquilino, modelMapper.map(imovelDto, Imovel.class));
+        return ResponseEntity.ok().body(modelMapper.map(imovel, DtoImovel.class));
     }
 
-    // PUT /imoveis/{id}
     @PutMapping("/{id}")
-    public ResponseEntity<DtoImovel> update(@PathVariable Integer id, @RequestBody DtoImovel dto) {
-        Imovel imovel = fromDTO(dto);
-        Imovel atualizado = serviceImovel.update(dto.getInquilino().getId(), id, imovel);
-        return ResponseEntity.ok(toDTO(atualizado));
+    public ResponseEntity<DtoImovel> update(@RequestParam(value = "inquilino", defaultValue = "0") Integer idInquilino,
+                                            @PathVariable Integer id,
+                                            @RequestBody DtoImovel imovelDto) {
+        Imovel imovel = serviceImovel.update(idInquilino, id, modelMapper.map(imovelDto, Imovel.class));
+        return ResponseEntity.ok().body(modelMapper.map(imovel, DtoImovel.class));
     }
 
-    // DELETE /imoveis/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         serviceImovel.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    // =========================
-    // Conversões entre Entity e DTO
-    // =========================
-    private DtoImovel toDTO(Imovel imovel) {
-        DtoImovel dto = new DtoImovel();
-        dto.setId(imovel.getId());
-        dto.setNome(imovel.getNome());
-        dto.setDescricao(imovel.getDescricao());
-        dto.setInquilino(imovel.getInquilino() != null ? imovel.getInquilino() : null);
-        return dto;
-    }
-
-    private Imovel fromDTO(DtoImovel dto) {
-        Imovel imovel = new Imovel();
-        imovel.setNome(dto.getNome());
-        imovel.setDescricao(dto.getDescricao());
-        return imovel;
     }
 }
