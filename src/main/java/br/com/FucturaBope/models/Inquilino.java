@@ -23,6 +23,9 @@ public class Inquilino {
     private String email;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "inquilino") // Corrigido: mappedBy deve apontar para o atributo na entidade Imovel
+    @OneToMany(mappedBy = "inquilino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Imovel> imovel = new ArrayList<>();
+
+    @OneToMany(mappedBy = "inquilino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Aluguel> aluguel = new ArrayList<>();
 }

@@ -51,5 +51,12 @@ public class GlobalException {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
 
     }
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public ResponseEntity<StandardError> unprocessableEntity(UnprocessableEntityException e,
+                                                             HttpServletRequest request) {
+        StandardError se = new StandardError(LocalDateTime.now(), HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(se);
+    }
 
 }

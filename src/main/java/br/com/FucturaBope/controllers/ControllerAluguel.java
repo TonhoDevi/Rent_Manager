@@ -31,13 +31,13 @@ public class ControllerAluguel {
 
     @PostMapping
     public ResponseEntity<DtoAluguel> create(@RequestBody Aluguel aluguel) {
-        Aluguel novoAluguel = serviceAluguel.save(null, aluguel);
+        Aluguel novoAluguel = serviceAluguel.save(aluguel);
         return ResponseEntity.ok(new DtoAluguel(novoAluguel));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DtoAluguel> update(@PathVariable Integer id, @RequestBody Aluguel aluguel) {
-        Aluguel aluguelAtualizado = serviceAluguel.update(null, id, aluguel);
+        Aluguel aluguelAtualizado = serviceAluguel.update(id, aluguel);
         return ResponseEntity.ok(new DtoAluguel(aluguelAtualizado));
     }
 
@@ -46,4 +46,37 @@ public class ControllerAluguel {
         serviceAluguel.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/maior-valor")
+    public ResponseEntity<List<DtoAluguel>> findAllOrderByValorDesc() {
+        List<Aluguel> lista = serviceAluguel.findAllOrderByValorDesc();
+        List<DtoAluguel> listaDto = lista.stream().map(DtoAluguel::new).collect(Collectors.toList());
+        return ResponseEntity.ok(listaDto);
+    }
+
+    @GetMapping("/vencidos")
+    public ResponseEntity<List<DtoAluguel>> findAllVencidos() {
+        List<Aluguel> lista = serviceAluguel.findAllVencidos();
+        List<DtoAluguel> listaDto = lista.stream().map(DtoAluguel::new).collect(Collectors.toList());
+        return ResponseEntity.ok(listaDto);
+    }
+    @PutMapping("/{id}/pagar")
+    public ResponseEntity<DtoAluguel> pagar(@PathVariable Integer id) {
+        Aluguel aluguelPago = serviceAluguel.pagar(id);
+        return ResponseEntity.ok(new DtoAluguel(aluguelPago));
+    }
+
+    @GetMapping("/pagos")
+    public ResponseEntity<List<DtoAluguel>> findAllPagos() {
+        List<Aluguel> lista = serviceAluguel.findAllPagos();
+        List<DtoAluguel> listaDto = lista.stream().map(DtoAluguel::new).collect(Collectors.toList());
+        return ResponseEntity.ok(listaDto);
+    }
+
+    @GetMapping("/nao-pagos")
+    public ResponseEntity<List<DtoAluguel>> findAllNaoPagos() {
+        List<Aluguel> lista = serviceAluguel.findAllNaoPagos();
+        List<DtoAluguel> listaDto = lista.stream().map(DtoAluguel::new).collect(Collectors.toList());
+        return ResponseEntity.ok(listaDto);
+    }
+
 }

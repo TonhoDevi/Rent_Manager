@@ -1,5 +1,6 @@
 package br.com.FucturaBope.dtos;
 
+import br.com.FucturaBope.models.Aluguel;
 import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.models.Inquilino;
 import org.modelmapper.ModelMapper;
@@ -17,15 +18,16 @@ public class DtoInquilino {
     private String nome;
     private String email;
     private List<Imovel> imovel = new ArrayList<>();
-
+    private List<Aluguel> aluguel = new ArrayList<>();
     public DtoInquilino() {
     }
 
-    public DtoInquilino(Integer id, String nome, String email, List<Imovel> imovel) {
+    public DtoInquilino(Integer id, String nome, String email, List<Imovel> imovel, List<Aluguel> aluguel) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.imovel = imovel;
+        this.aluguel = aluguel;
     }
 
     public DtoInquilino(Inquilino inquilino) {
@@ -33,6 +35,7 @@ public class DtoInquilino {
         this.nome = inquilino.getNome();
         this.email = inquilino.getEmail();
         this.imovel = inquilino.getImovel();
+        this.aluguel = inquilino.getAluguel();
     }
 
     public Integer getId() {
@@ -65,5 +68,13 @@ public class DtoInquilino {
 
     public void setImovel(List<Imovel> imovel) {
         this.imovel = imovel;
+    }
+
+    public List<Aluguel> getAluguel() {
+        return aluguel;
+    }
+
+    public void setAluguel(List<Aluguel> aluguel) {
+        this.aluguel = aluguel;
     }
 }

@@ -18,14 +18,13 @@ public class Aluguel {
     @Column(nullable = false)
     private Double valor;
 
-
     private Date dataVencimento;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "imovel_id", nullable = false, unique = true)
+    @Column(name = "imovel_id", nullable = false)
     private Integer imovelId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "inquilino_id")
+    @Column(name = "inquilino_id")
     private Integer inquilinoId;
+
+    private Boolean pago = false;
 }

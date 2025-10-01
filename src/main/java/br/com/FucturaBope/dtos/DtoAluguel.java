@@ -1,8 +1,6 @@
 package br.com.FucturaBope.dtos;
 
 import br.com.FucturaBope.models.Aluguel;
-import br.com.FucturaBope.models.Imovel;
-import br.com.FucturaBope.models.Inquilino;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.modelmapper.ModelMapper;
 import java.util.Date;
@@ -15,25 +13,28 @@ public class DtoAluguel {
     private Integer id;
     private Double valor;
     private Date dataVencimento;
-    private Imovel imovelId;
-    private Inquilino inquilinoId;
+    private Integer imovelId;
+    private Integer inquilinoId;
+    private Boolean pago = false;
 
 
     public  DtoAluguel(){};
 
-    public DtoAluguel(Integer id, Double valor, Date dataVencimento, Imovel imovelId, Inquilino inquilinoId) {
+    public DtoAluguel(Integer id, Double valor, Date dataVencimento, Integer imovelId, Integer inquilinoId, Boolean pago) {
         this.id = id;
         this.valor = valor;
         this.dataVencimento = dataVencimento;
         this.imovelId = imovelId;
         this.inquilinoId = inquilinoId;
+        this.pago = pago;
     }
     public DtoAluguel(Aluguel aluguel) {
         this.id = aluguel.getId();
         this.valor = aluguel.getValor();
         this.dataVencimento = aluguel.getDataVencimento();
-        this.imovelId = aluguel.getImovel();
-        this.inquilinoId = aluguel.getInquilino();
+        this.imovelId = aluguel.getImovelId();
+        this.inquilinoId = aluguel.getInquilinoId();
+        this.pago = aluguel.getPago();
     }
 
 
@@ -61,19 +62,27 @@ public class DtoAluguel {
         this.dataVencimento = dataVencimento;
     }
 
-    public Imovel getImovelId() {
+    public Integer getImovelId() {
         return imovelId;
     }
 
-    public void setImovelId(Imovel imovelId) {
+    public void setImovelId(Integer imovelId) {
         this.imovelId = imovelId;
     }
 
-    public Inquilino getInquilinoId() {
+    public Integer getInquilinoId() {
         return inquilinoId;
     }
 
-    public void setInquilinoId(Inquilino inquilinoId) {
+    public void setInquilinoId(Integer inquilinoId) {
         this.inquilinoId = inquilinoId;
+    }
+
+    public Boolean getPago() {
+        return pago;
+    }
+
+    public void setPago(Boolean pago) {
+        this.pago = pago;
     }
 }
