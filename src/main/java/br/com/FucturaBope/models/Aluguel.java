@@ -28,6 +28,8 @@ public class Aluguel {
 
     private Boolean pago = false;
 
+    private int diasAtraso;
+
 
 
 }

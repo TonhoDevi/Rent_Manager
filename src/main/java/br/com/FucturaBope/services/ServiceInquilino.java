@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceInquilino {
-
-    @Autowired
-    private RepositoryInquilino inquilinoRepository;
-
+    
     @Autowired
     private RepositoryInquilino repositoryInquilino;
 
@@ -30,7 +27,7 @@ public class ServiceInquilino {
 
     public Inquilino findById(Integer id) {
 
-        Optional<Inquilino> inq = inquilinoRepository.findById(id);
+        Optional<Inquilino> inq = repositoryInquilino.findById(id);
         if (inq.isPresent()) {
             return inq.get();
         }
@@ -38,7 +35,7 @@ public class ServiceInquilino {
     }
 
     public List<Inquilino> findAll() {
-        List<Inquilino> list = inquilinoRepository.findAll();
+        List<Inquilino> list = repositoryInquilino.findAll();
         if (!list.isEmpty()) {
             return list;
         }
@@ -46,23 +43,23 @@ public class ServiceInquilino {
     }
 
     public Inquilino save(Inquilino inquilino) {
-        Inquilino inq = inquilinoRepository.save(inquilino);
+        Inquilino inq = repositoryInquilino.save(inquilino);
         return inq;
     }
 
     public Inquilino update(Inquilino inquilino) {
         findById(inquilino.getId());
-        return inquilinoRepository.save(inquilino);
+        return repositoryInquilino.save(inquilino);
 
     }
 
     public void delete(Integer id) {
         tratarDelete(id);
-        inquilinoRepository.deleteById(id);
+        repositoryInquilino.deleteById(id);
     }
 
     public Inquilino findByNome(String nome) {
-        Optional<Inquilino> inq = inquilinoRepository.findByNomeIgnoreCaseContaining(nome);
+        Optional<Inquilino> inq = repositoryInquilino.findByNomeIgnoreCaseContaining(nome);
         if (inq.isPresent()) {
             return inq.get();
         }

@@ -74,15 +74,10 @@
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
-			<version>RELEASE</version>
+			<version>24.0.1</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>br.com.FucturaBope</groupId>
-			<artifactId>BackEnd</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<!-- Swagger/OpenAPI Springdoc -->
+		<!-- Swagger/OpenAPI Springdoc - apenas starter webmvc-ui para Spring Boot 3.x -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>

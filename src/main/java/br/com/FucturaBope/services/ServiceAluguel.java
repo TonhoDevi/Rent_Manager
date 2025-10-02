@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,10 +91,9 @@ public class ServiceAluguel {
         return repositoryAluguel.findByPagoFalse();
     }
 
-    public List<DtoAluguel> findAtrasados() {
+    public List<Aluguel> findAtrasados() {
         List<Aluguel> atrasados = repositoryAluguel.findByPagoFalseAndDataVencimentoBefore(LocalDate.now());
-
-        return atrasados.stream().map(aluguel -> {
+        for (Aluguel aluguel : atrasados) {
             long diasAtraso = 0;
             if (aluguel.getDataVencimento() != null) {
                 LocalDate venc = aluguel.getDataVencimento().toInstant()
@@ -104,8 +102,9 @@ public class ServiceAluguel {
                 diasAtraso = ChronoUnit.DAYS.between(venc, LocalDate.now());
                 diasAtraso = diasAtraso > 0 ? diasAtraso : 0;
             }
-            return new DtoAluguel(aluguel, diasAtraso);
-        }).toList();
+            aluguel.setDiasAtraso((int) diasAtraso);
+        }
+        return atrasados;
     }
 
 }
