@@ -56,4 +56,12 @@ public class ControllerInquilino {
         serviceInquilino.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // Associa um imóvel
+    @PutMapping("/{idInquilino}/imoveis/{idImovel}")
+    public ResponseEntity<DtoInquilino> addImovel(@PathVariable Integer idInquilino,
+                                                  @PathVariable Integer idImovel) {
+        Inquilino inquilino = serviceInquilino.addImovel(idInquilino, idImovel);
+        return ResponseEntity.ok(new DtoInquilino(inquilino));
+    }
 }

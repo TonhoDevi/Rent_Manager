@@ -1,7 +1,9 @@
 package br.com.FucturaBope.services;
 
 import br.com.FucturaBope.exceptions.ObjectNotFoundException;
+import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.models.Inquilino;
+import br.com.FucturaBope.repositorys.RepositoryImovel;
 import br.com.FucturaBope.repositorys.RepositoryInquilino;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -14,6 +16,12 @@ public class ServiceInquilino {
 
     @Autowired
     private RepositoryInquilino inquilinoRepository;
+
+    @Autowired
+    private RepositoryInquilino repositoryInquilino;
+
+    @Autowired
+    private RepositoryImovel repositoryImovel;
 
     public Inquilino findById(Integer id) {
 
@@ -33,14 +41,12 @@ public class ServiceInquilino {
     }
 
     public Inquilino save(Inquilino inquilino) {
-        buscarPorNome(inquilino);
         Inquilino inq = inquilinoRepository.save(inquilino);
         return inq;
     }
 
     public Inquilino update(Inquilino inquilino) {
         findById(inquilino.getId());
-        buscarPorNome(inquilino);
         return inquilinoRepository.save(inquilino);
 
     }
@@ -58,17 +64,24 @@ public class ServiceInquilino {
         throw new ObjectNotFoundException("Inquilino não encontrada com este nome: " + nome);
     }
 
-    private void buscarPorNome(Inquilino inquilino) {
-        Optional<Inquilino> inq = inquilinoRepository.findByNomeIgnoreCase(inquilino.getNome());
-        if (inq.isPresent() && !inq.get().getId().equals(inquilino.getId())) {
-            throw new IllegalArgumentException("Inquilino já existe com o nome: " + inquilino.getNome());
-        }
-    }
-
     private void tratarDelete(Integer id) {
         Inquilino inq = findById(id);
         if (!inq.getImovel().isEmpty()) {
             throw new DataIntegrityViolationException("Inquilino não pode ser deletada, pois possui livros associados.");
         }
     }
+    public Inquilino addImovel(Integer idInquilino, Integer idImovel) {
+        Inquilino inquilino = repositoryInquilino.findById(idInquilino)
+                .orElseThrow(() -> new ObjectNotFoundException("Inquilino não encontrado"));
+
+        Imovel imovel = repositoryImovel.findById(idImovel)
+                .orElseThrow(() -> new ObjectNotFoundException("Imóvel não encontrado"));
+
+        imovel.setInquilino(inquilino);
+        repositoryImovel.save(imovel);
+
+        inquilino.getImovel().add(imovel);
+        return repositoryInquilino.save(inquilino);
+    }
+
 }

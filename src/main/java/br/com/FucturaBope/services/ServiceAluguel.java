@@ -1,5 +1,6 @@
 package br.com.FucturaBope.services;
 
+import br.com.FucturaBope.dtos.DtoAluguel;
 import br.com.FucturaBope.exceptions.ObjectNotFoundException;
 import br.com.FucturaBope.exceptions.UnprocessableEntityException;
 import br.com.FucturaBope.models.Aluguel;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +43,7 @@ public class ServiceAluguel {
         aluguel.setId(null);
 
         if (aluguel.getValor() == null || aluguel.getValor() <= 0) {
-            throw new UnprocessableEntityException("O valor do aluguel deve ser um número positivo.");
+            throw new UnprocessableEntityException("O valor do aluguel deve ser um número e positivo.");
         }
 
         return repositoryAluguel.save(aluguel);
@@ -49,19 +53,16 @@ public class ServiceAluguel {
         Aluguel entity = repositoryAluguel.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Aluguel não encontrado"));
 
-        // aqui você aplica as validações
         if (aluguel.getValor() == null || aluguel.getValor() <= 0) {
             throw new UnprocessableEntityException("O valor do aluguel deve ser um número positivo.");
         }
 
-        // atualizar apenas os campos necessários
         entity.setValor(aluguel.getValor());
         entity.setDataVencimento(aluguel.getDataVencimento());
         entity.setPago(aluguel.getPago());
 
         return repositoryAluguel.save(entity);
     }
-
 
     public void delete(Integer id) {
         findById(id);
@@ -71,15 +72,11 @@ public class ServiceAluguel {
         return repositoryAluguel.findAllByOrderByValorDesc();
     }
 
-    public List<Aluguel> findAllVencidos() {
-        LocalDate hoje = LocalDate.now();
-        return repositoryAluguel.findByDataVencimentoBefore(hoje);
-    }
     public Aluguel pagar(Integer id) {
         Aluguel aluguel = repositoryAluguel.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aluguel não encontrado"));
 
-        if (Boolean.TRUE.equals(aluguel.getPago())) {
+        if (aluguel.getPago()) {
             throw new RuntimeException("Aluguel já está pago");
         }
 
@@ -93,6 +90,22 @@ public class ServiceAluguel {
 
     public List<Aluguel> findAllNaoPagos() {
         return repositoryAluguel.findByPagoFalse();
+    }
+
+    public List<DtoAluguel> findAtrasados() {
+        List<Aluguel> atrasados = repositoryAluguel.findByPagoFalseAndDataVencimentoBefore(LocalDate.now());
+
+        return atrasados.stream().map(aluguel -> {
+            long diasAtraso = 0;
+            if (aluguel.getDataVencimento() != null) {
+                LocalDate venc = aluguel.getDataVencimento().toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+                diasAtraso = ChronoUnit.DAYS.between(venc, LocalDate.now());
+                diasAtraso = diasAtraso > 0 ? diasAtraso : 0;
+            }
+            return new DtoAluguel(aluguel, diasAtraso);
+        }).toList();
     }
 
 }

@@ -53,10 +53,9 @@ public class ControllerAluguel {
         return ResponseEntity.ok(listaDto);
     }
 
-    @GetMapping("/vencidos")
-    public ResponseEntity<List<DtoAluguel>> findAllVencidos() {
-        List<Aluguel> lista = serviceAluguel.findAllVencidos();
-        List<DtoAluguel> listaDto = lista.stream().map(DtoAluguel::new).collect(Collectors.toList());
+    @GetMapping("/atrasados")
+    public ResponseEntity<List<DtoAluguel>> findAtrasados() {
+        List<DtoAluguel> listaDto = serviceAluguel.findAtrasados();
         return ResponseEntity.ok(listaDto);
     }
     @PutMapping("/{id}/pagar")

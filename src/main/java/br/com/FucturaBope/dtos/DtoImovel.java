@@ -6,34 +6,30 @@ import br.com.FucturaBope.models.Inquilino;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DtoImovel {
 
     @Autowired
     private ModelMapper modelMapper;
 
     private Integer id;
-    private String nome;
+    private String endereco;
     private String descricao;
-
     private Inquilino inquilino;
     private Aluguel aluguel;
 
     public DtoImovel() {
     }
 
-    public DtoImovel(Integer id, String nome, String descricao, Inquilino inquilino, Aluguel aluguel) {
+    public DtoImovel(Integer id, String descricao, String endereco, Inquilino inquilino, Aluguel aluguel) {
         this.id = id;
-        this.nome = nome;
         this.descricao = descricao;
+        this.endereco = endereco;
         this.inquilino = inquilino;
         this.aluguel = aluguel;
     }
     public DtoImovel(Imovel imovel) {
         this.id = imovel.getId();
-        this.nome = imovel.getNome();
+        this.endereco = imovel.getEndereco();
         this.descricao = imovel.getDescricao();
     }
 
@@ -45,20 +41,20 @@ public class DtoImovel {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public Inquilino getInquilino() {

@@ -27,4 +27,7 @@ public class Aluguel {
     private Integer inquilinoId;
 
     private Boolean pago = false;
+
+
+
 }

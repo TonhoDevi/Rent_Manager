@@ -19,6 +19,15 @@ public class ServiceImovel {
     @Autowired
     private ServiceInquilino inquilinoService;
 
+
+
+    public List<Imovel> findAll() {
+        List<Imovel> list = imovelRepository.findAll();
+        if (!list.isEmpty()) {
+            return list;
+        }
+        throw new ObjectNotFoundException("Nenhum imovel encontrado.");
+    }
     public Imovel findById(Integer id) {
         Optional<Imovel> imovel = imovelRepository.findById(id);
         if (imovel.isPresent()) {
@@ -42,8 +51,8 @@ public class ServiceImovel {
     @Transactional
     public Imovel update(Integer idInquilino, Integer id, Imovel imovel) {
         Imovel imovelExistente = findById(id);
-        imovelExistente.setNome(imovel.getNome());
         imovelExistente.setDescricao(imovel.getDescricao());
+        imovelExistente.setEndereco(imovel.getEndereco());
         imovelExistente.setInquilino(imovel.getInquilino());
         Inquilino inquilino = inquilinoService.findById(idInquilino);
         imovelExistente.setInquilino(inquilino);
@@ -55,5 +64,7 @@ public class ServiceImovel {
         findById(id);
         imovelRepository.deleteById(id);
     }
+
+
     
 }

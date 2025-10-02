@@ -16,9 +16,9 @@ public class Imovel {
     private Integer id;
 
     @Column(nullable = false)
-    private String nome;
-
     private String descricao;
+
+    private String endereco;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inquilino_id")

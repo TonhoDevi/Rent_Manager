@@ -14,4 +14,7 @@ public interface RepositoryAluguel extends JpaRepository<Aluguel, Integer> {
     List<Aluguel> findByPagoFalse();
     List<Aluguel> findAllByOrderByValorDesc();
     List<Aluguel> findByDataVencimentoBefore(LocalDate data);
+    List<Aluguel> findByPagoFalseAndDataVencimentoBefore(LocalDate now);
+
+
 }

@@ -21,6 +21,14 @@ public class ControllerImovel {
     @Autowired
     private ModelMapper modelMapper;
 
+
+    public ResponseEntity<List<DtoImovel>> findAll() {
+        List<Imovel> list = serviceImovel.findAll();
+        return ResponseEntity.ok().body(list.stream()
+                .map(obj -> modelMapper.map(obj, DtoImovel.class))
+                .collect(Collectors.toList()));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<DtoImovel> findById(@PathVariable Integer id) {
         Imovel imovel = serviceImovel.findById(id);
@@ -55,4 +63,5 @@ public class ControllerImovel {
         serviceImovel.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }
