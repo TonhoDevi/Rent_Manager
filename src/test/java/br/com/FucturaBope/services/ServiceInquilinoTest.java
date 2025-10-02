@@ -167,7 +167,7 @@ class ServiceInquilinoTest {
 
         Inquilino result = serviceInquilino.addAluguel(1, 100);
 
-        assertTrue(result.getAluguel().contains(aluguel));
+        assertTrue(result.getAlugueis().contains(aluguel));
     }
 
     @Test

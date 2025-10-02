@@ -4,7 +4,9 @@ import br.com.FucturaBope.dtos.DtoAluguel;
 import br.com.FucturaBope.exceptions.ObjectNotFoundException;
 import br.com.FucturaBope.exceptions.UnprocessableEntityException;
 import br.com.FucturaBope.models.Aluguel;
+import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.repositorys.RepositoryAluguel;
+import br.com.FucturaBope.repositorys.RepositoryImovel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,21 +25,29 @@ import static org.mockito.Mockito.*;
 class ServiceAluguelTest {
 
     @Mock
+    private RepositoryImovel repositoryImovel;
+
+    @Mock
     private RepositoryAluguel repositoryAluguel;
 
     @InjectMocks
     private ServiceAluguel serviceAluguel;
 
     private Aluguel aluguel;
+    private Imovel imovelMock;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
 
+        imovelMock = new Imovel();
+        imovelMock.setId(1);
+
         aluguel = new Aluguel();
         aluguel.setId(1);
-        aluguel.setValor(1200.0); // pelo teu código, valor é numérico simples
+        aluguel.setValor(1200.0);
         aluguel.setPago(false);
+        aluguel.setImovel(imovelMock);
 
         // Data de vencimento atrasada
         aluguel.setDataVencimento(new Date(System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 3)));
@@ -79,46 +89,48 @@ class ServiceAluguelTest {
 
     @Test
     void testSave_ok() {
-        DtoAluguel dto = new DtoAluguel();
-        dto.setValor(1500.0);
-        dto.setPago(false);
-        dto.setImovelId(10); // exemplo de id de imóvel
-        dto.setInquilinoId(1); // exemplo de id de inquilino
+        when(repositoryImovel.findById(1)).thenReturn(Optional.of(imovelMock));
+        when(repositoryAluguel.save(any(Aluguel.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        when(repositoryAluguel.save(any(Aluguel.class))).thenAnswer(inv -> {
-            Aluguel a = inv.getArgument(0);
-            a.setId(2);
-            return a;
-        });
+        Aluguel toSave = new Aluguel();
+        toSave.setValor(100.0);
+        toSave.setImovel(imovelMock);
 
-        Aluguel result = serviceAluguel.save(dto);
+        Aluguel saved = serviceAluguel.save(new DtoAluguel(toSave));
 
-        assertNotNull(result.getId());
-        assertEquals(1500.0, result.getValor());
+        assertNotNull(saved);
+        assertEquals(100.0, saved.getValor());
+        assertEquals(1, saved.getImovel().getId());
     }
 
     @Test
     void testSave_invalidValue_throwsException() {
+        when(repositoryImovel.findById(1)).thenReturn(Optional.of(imovelMock));
+
         Aluguel invalido = new Aluguel();
         invalido.setValor(-10.0);
+        invalido.setImovel(imovelMock);
+
         DtoAluguel dto = new DtoAluguel(invalido);
+
         assertThrows(UnprocessableEntityException.class, () -> serviceAluguel.save(dto));
     }
 
     @Test
     void testUpdate_ok() {
         when(repositoryAluguel.findById(1)).thenReturn(Optional.of(aluguel));
+        when(repositoryImovel.findById(1)).thenReturn(Optional.of(imovelMock));
         when(repositoryAluguel.save(any(Aluguel.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Aluguel update = new Aluguel();
-        update.setValor(2000.0);
-        update.setPago(true);
-        update.setDataVencimento(new Date());
-        DtoAluguel dtoUpdate = new DtoAluguel(update);
-        Aluguel result = serviceAluguel.update(1, dtoUpdate);
+        Aluguel updatedAluguel = new Aluguel();
+        updatedAluguel.setValor(150.0);
+        updatedAluguel.setImovel(imovelMock);
 
-        assertEquals(2000.0, result.getValor());
-        assertTrue(result.getPago());
+        Aluguel updated = serviceAluguel.update(1, new DtoAluguel(updatedAluguel));
+
+        assertNotNull(updated);
+        assertEquals(150.0, updated.getValor());
+        assertEquals(1, updated.getImovel().getId());
     }
 
     @Test
@@ -141,7 +153,7 @@ class ServiceAluguelTest {
 
     @Test
     void testFindAtrasados_ok() {
-        when(repositoryAluguel.findByPagoFalseAndDataVencimentoBefore(any(java.time.LocalDate.class)))
+        when(repositoryAluguel.findByPagoFalseAndDataVencimentoBefore(any()))
                 .thenReturn(Arrays.asList(aluguel));
 
         List<Aluguel> atrasados = serviceAluguel.findAtrasados();

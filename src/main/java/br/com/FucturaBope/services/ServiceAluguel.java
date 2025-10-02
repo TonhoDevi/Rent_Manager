@@ -47,22 +47,22 @@ public class ServiceAluguel {
 
 
     public Aluguel save(DtoAluguel dto) {
-        Imovel imovel = repositoryImovel.findById(dto.getImovelId())
-            .orElseThrow(() -> new ObjectNotFoundException("Imóvel não encontrado"));
-        Inquilino inquilino = null;
-        if (dto.getInquilinoId() != null) {
-            inquilino = repositoryInquilino.findById(dto.getInquilinoId())
-                .orElseThrow(() -> new ObjectNotFoundException("Inquilino não encontrado"));
+        if (dto.getValor() <= 0) {
+            throw new UnprocessableEntityException("Valor do aluguel inválido");
         }
+
+        Imovel imovel = repositoryImovel.findById(dto.getImovelId())
+                .orElseThrow(() -> new ObjectNotFoundException("Imóvel não encontrado"));
+
         Aluguel aluguel = new Aluguel();
         aluguel.setValor(dto.getValor());
-        aluguel.setDataVencimento(dto.getDataVencimento());
         aluguel.setImovel(imovel);
-        aluguel.setInquilino(inquilino);
         aluguel.setPago(dto.getPago());
-        aluguel.setDiasAtraso((int) dto.getDiasAtraso());
+        aluguel.setDataVencimento(dto.getDataVencimento());
+
         return repositoryAluguel.save(aluguel);
     }
+
 
     public Aluguel update(Integer id, DtoAluguel dto) {
         Aluguel entity = repositoryAluguel.findById(id)
