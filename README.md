@@ -76,7 +76,7 @@ Abaixo estão todos os endpoints disponíveis na API, organizados por entidade e
 - `PUT /alugueis/{id}` — Atualiza aluguel existente. Body: DtoAluguel.
 - `DELETE /alugueis/{id}` — Remove aluguel por ID.
 - `GET /alugueis/maior-valor` — Lista aluguéis ordenados por valor decrescente.
-- `GET /alugueis/atrasados` — Lista aluguéis atrasados (baseado em `diasAtrasados`).
+- `GET /alugueis/atrasados` — Lista aluguéis atrasados
 - `PUT /alugueis/{id}/pagar` — Marca aluguel como pago.
 - `GET /alugueis/pagos` — Lista aluguéis pagos.
 - `GET /alugueis/nao-pagos` — Lista aluguéis não pagos.
