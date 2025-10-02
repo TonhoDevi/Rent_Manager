@@ -101,8 +101,8 @@ class ServiceAluguelTest {
     void testSave_invalidValue_throwsException() {
         Aluguel invalido = new Aluguel();
         invalido.setValor(-10.0);
-
-        assertThrows(UnprocessableEntityException.class, () -> serviceAluguel.save(invalido));
+        DtoAluguel dto = new DtoAluguel(invalido);
+        assertThrows(UnprocessableEntityException.class, () -> serviceAluguel.save(dto));
     }
 
     @Test
@@ -114,8 +114,8 @@ class ServiceAluguelTest {
         update.setValor(2000.0);
         update.setPago(true);
         update.setDataVencimento(new Date());
-
-        Aluguel result = serviceAluguel.update(1, update);
+        DtoAluguel dtoUpdate = new DtoAluguel(update);
+        Aluguel result = serviceAluguel.update(1, dtoUpdate);
 
         assertEquals(2000.0, result.getValor());
         assertTrue(result.getPago());
