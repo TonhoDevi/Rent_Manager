@@ -33,9 +33,10 @@ public class DtoAluguel {
         this.id = aluguel.getId();
         this.valor = aluguel.getValor();
         this.dataVencimento = aluguel.getDataVencimento();
-        this.imovelId = aluguel.getImovelId();
-        this.inquilinoId = aluguel.getInquilinoId();
+        this.imovelId = aluguel.getImovel() != null ? aluguel.getImovel().getId() : null;
+        this.inquilinoId = aluguel.getInquilino() != null ? aluguel.getInquilino().getId() : null;
         this.pago = aluguel.getPago();
+        this.diasAtraso = aluguel.getDiasAtraso();
     }
 
     public DtoAluguel(Aluguel aluguel, long diasAtraso) {

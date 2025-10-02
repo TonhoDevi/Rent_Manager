@@ -20,11 +20,13 @@ public class Aluguel {
 
     private Date dataVencimento;
 
-    @Column(name = "imovel_id", nullable = false)
-    private Integer imovelId;
+    @ManyToOne
+    @JoinColumn(name = "imovel_id", nullable = false)
+    private Imovel imovel;
 
-    @Column(name = "inquilino_id")
-    private Integer inquilinoId;
+    @ManyToOne
+    @JoinColumn(name = "inquilino_id")
+    private Inquilino inquilino;
 
     private Boolean pago = false;
 

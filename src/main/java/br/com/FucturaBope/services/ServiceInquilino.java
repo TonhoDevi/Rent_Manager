@@ -92,16 +92,31 @@ public class ServiceInquilino {
         Aluguel aluguel = repositoryAluguel.findById(idAluguel)
                 .orElseThrow(() -> new ObjectNotFoundException("Aluguel não encontrado"));
 
-        Integer idImovelDoAluguel = aluguel.getImovelId();
+        Integer idImovelDoAluguel = aluguel.getImovel().getId();
         boolean imovelVinculado = inquilino.getImovel().stream()
                 .anyMatch(imovel -> imovel.getId().equals(idImovelDoAluguel));
         if (!imovelVinculado) {
             throw new DataIntegrityViolationException("O imóvel do aluguel não está vinculado ao inquilino.");
         }
 
-        aluguel.setInquilinoId(inquilino.getId());
+        aluguel.setInquilino(inquilino);
         repositoryAluguel.save(aluguel);
-        inquilino.getAluguel().add(aluguel);
+        inquilino.getAlugueis().add(aluguel);
+        return repositoryInquilino.save(inquilino);
+    }
+    public Inquilino addAluguelToInquilino(Integer inquilinoId, Integer aluguelId) {
+        Inquilino inquilino = findById(inquilinoId);
+        Aluguel aluguel = repositoryAluguel.findById(aluguelId)
+            .orElseThrow(() -> new ObjectNotFoundException("Aluguel não encontrado"));
+        Imovel imovelDoAluguel = aluguel.getImovel();
+        boolean inquilinoPossuiImovel = inquilino.getImovel().stream()
+            .anyMatch(imovel -> imovel.getId().equals(imovelDoAluguel.getId()));
+        if (!inquilinoPossuiImovel) {
+            throw new IllegalArgumentException("O imóvel do aluguel não pertence ao inquilino");
+        }
+        aluguel.setInquilino(inquilino);
+        repositoryAluguel.save(aluguel);
+        inquilino.getAlugueis().add(aluguel);
         return repositoryInquilino.save(inquilino);
     }
 

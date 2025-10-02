@@ -1,4 +1,4 @@
-package br.com.FucturaBope.main;
+package br.com.FucturaBope;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

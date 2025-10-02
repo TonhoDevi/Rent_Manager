@@ -4,7 +4,11 @@ import br.com.FucturaBope.dtos.DtoAluguel;
 import br.com.FucturaBope.exceptions.ObjectNotFoundException;
 import br.com.FucturaBope.exceptions.UnprocessableEntityException;
 import br.com.FucturaBope.models.Aluguel;
+import br.com.FucturaBope.models.Imovel;
+import br.com.FucturaBope.models.Inquilino;
 import br.com.FucturaBope.repositorys.RepositoryAluguel;
+import br.com.FucturaBope.repositorys.RepositoryImovel;
+import br.com.FucturaBope.repositorys.RepositoryInquilino;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +23,10 @@ public class ServiceAluguel {
 
     @Autowired
     private RepositoryAluguel repositoryAluguel;
+    @Autowired
+    private RepositoryImovel repositoryImovel;
+    @Autowired
+    private RepositoryInquilino repositoryInquilino;
 
 
     public List<Aluguel> findAll() {
@@ -38,28 +46,40 @@ public class ServiceAluguel {
     }
 
 
-    public Aluguel save(Aluguel aluguel) {
-        aluguel.setId(null);
-
-        if (aluguel.getValor() == null || aluguel.getValor() <= 0) {
-            throw new UnprocessableEntityException("O valor do aluguel deve ser um número e positivo.");
+    public Aluguel save(DtoAluguel dto) {
+        Imovel imovel = repositoryImovel.findById(dto.getImovelId())
+            .orElseThrow(() -> new ObjectNotFoundException("Imóvel não encontrado"));
+        Inquilino inquilino = null;
+        if (dto.getInquilinoId() != null) {
+            inquilino = repositoryInquilino.findById(dto.getInquilinoId())
+                .orElseThrow(() -> new ObjectNotFoundException("Inquilino não encontrado"));
         }
-
+        Aluguel aluguel = new Aluguel();
+        aluguel.setValor(dto.getValor());
+        aluguel.setDataVencimento(dto.getDataVencimento());
+        aluguel.setImovel(imovel);
+        aluguel.setInquilino(inquilino);
+        aluguel.setPago(dto.getPago());
+        aluguel.setDiasAtraso((int) dto.getDiasAtraso());
         return repositoryAluguel.save(aluguel);
     }
 
-    public Aluguel update(Integer id, Aluguel aluguel) {
+    public Aluguel update(Integer id, DtoAluguel dto) {
         Aluguel entity = repositoryAluguel.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Aluguel não encontrado"));
-
-        if (aluguel.getValor() == null || aluguel.getValor() <= 0) {
-            throw new UnprocessableEntityException("O valor do aluguel deve ser um número positivo.");
+        Imovel imovel = repositoryImovel.findById(dto.getImovelId())
+            .orElseThrow(() -> new ObjectNotFoundException("Imóvel não encontrado"));
+        Inquilino inquilino = null;
+        if (dto.getInquilinoId() != null) {
+            inquilino = repositoryInquilino.findById(dto.getInquilinoId())
+                .orElseThrow(() -> new ObjectNotFoundException("Inquilino não encontrado"));
         }
-
-        entity.setValor(aluguel.getValor());
-        entity.setDataVencimento(aluguel.getDataVencimento());
-        entity.setPago(aluguel.getPago());
-
+        entity.setValor(dto.getValor());
+        entity.setDataVencimento(dto.getDataVencimento());
+        entity.setImovel(imovel);
+        entity.setInquilino(inquilino);
+        entity.setPago(dto.getPago());
+        entity.setDiasAtraso((int) dto.getDiasAtraso());
         return repositoryAluguel.save(entity);
     }
 

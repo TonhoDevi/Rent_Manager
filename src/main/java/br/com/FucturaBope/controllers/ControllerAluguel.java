@@ -30,14 +30,14 @@ public class ControllerAluguel {
     }
 
     @PostMapping
-    public ResponseEntity<DtoAluguel> create(@RequestBody Aluguel aluguel) {
-        Aluguel novoAluguel = serviceAluguel.save(aluguel);
+    public ResponseEntity<DtoAluguel> create(@RequestBody DtoAluguel dto) {
+        Aluguel novoAluguel = serviceAluguel.save(dto);
         return ResponseEntity.ok(new DtoAluguel(novoAluguel));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DtoAluguel> update(@PathVariable Integer id, @RequestBody Aluguel aluguel) {
-        Aluguel aluguelAtualizado = serviceAluguel.update(id, aluguel);
+    public ResponseEntity<DtoAluguel> update(@PathVariable Integer id, @RequestBody DtoAluguel dto) {
+        Aluguel aluguelAtualizado = serviceAluguel.update(id, dto);
         return ResponseEntity.ok(new DtoAluguel(aluguelAtualizado));
     }
 

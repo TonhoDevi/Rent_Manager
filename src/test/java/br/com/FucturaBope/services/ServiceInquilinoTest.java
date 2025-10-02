@@ -47,15 +47,17 @@ class ServiceInquilinoTest {
         inquilino.setId(1);
         inquilino.setNome("João");
         inquilino.setImovel(new ArrayList<>());
-        inquilino.setAluguel(new ArrayList<>());
+        inquilino.setAlugueis(new ArrayList<>());
 
         imovel = new Imovel();
         imovel.setId(10);
         imovel.setDescricao("Apartamento 101");
+        imovel.setInquilino(inquilino);
 
         aluguel = new Aluguel();
         aluguel.setId(100);
-        aluguel.setImovelId(10);
+        aluguel.setImovel(imovel);
+        aluguel.setInquilino(inquilino);
     }
 
     @Test

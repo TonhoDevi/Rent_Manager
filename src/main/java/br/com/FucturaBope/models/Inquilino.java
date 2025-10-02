@@ -27,5 +27,5 @@ public class Inquilino {
     private List<Imovel> imovel = new ArrayList<>();
 
     @OneToMany(mappedBy = "inquilino", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Aluguel> aluguel = new ArrayList<>();
+    private List<Aluguel> alugueis = new ArrayList<>();
 }

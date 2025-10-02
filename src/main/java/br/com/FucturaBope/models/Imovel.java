@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,7 +27,6 @@ public class Imovel {
     @JoinColumn(name = "inquilino_id")
     private Inquilino inquilino;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "aluguel_id")
-    private Aluguel aluguel;
+    @OneToMany(mappedBy = "imovel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Aluguel> alugueis = new ArrayList<>();
 }

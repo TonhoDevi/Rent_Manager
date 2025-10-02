@@ -66,9 +66,9 @@ public class ControllerInquilino {
     }
 
     // Vincula um aluguel existente ao inquilino
-    @PutMapping("/{idInquilino}/adicionar-aluguel/{idAluguel}")
-    public ResponseEntity<DtoInquilino> adicionarAluguelAoInquilino(@PathVariable Integer idInquilino, @PathVariable Integer idAluguel) {
-        Inquilino inquilinoAtualizado = serviceInquilino.addAluguel(idInquilino, idAluguel);
-        return ResponseEntity.ok(new DtoInquilino(inquilinoAtualizado));
+    @PutMapping("/{idInquilino}/alugueis/{idAluguel}")
+    public ResponseEntity<DtoInquilino> addAluguelToInquilino(@PathVariable Integer idInquilino, @PathVariable Integer idAluguel) {
+        Inquilino inquilino = serviceInquilino.addAluguelToInquilino(idInquilino, idAluguel);
+        return ResponseEntity.ok(new DtoInquilino(inquilino));
     }
 }
