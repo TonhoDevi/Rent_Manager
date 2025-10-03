@@ -3,13 +3,8 @@ package br.com.FucturaBope.dtos;
 import br.com.FucturaBope.models.Aluguel;
 import br.com.FucturaBope.models.Imovel;
 import br.com.FucturaBope.models.Inquilino;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class DtoImovel {
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     private Integer id;
     private String endereco;

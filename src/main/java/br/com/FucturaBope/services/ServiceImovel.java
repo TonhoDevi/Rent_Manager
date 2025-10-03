@@ -42,10 +42,8 @@ public class ServiceImovel {
         return list;
     }
     @Transactional
-    public Imovel save(Integer idInquilino, Imovel imovel){
+    public Imovel save(Imovel imovel){
         imovel.setId(null);
-        Inquilino inquilino = inquilinoService.findById(idInquilino);
-        imovel.setInquilino(inquilino);
         return imovelRepository.save(imovel);
     }
     @Transactional
@@ -53,7 +51,6 @@ public class ServiceImovel {
         Imovel imovelExistente = findById(id);
         imovelExistente.setDescricao(imovel.getDescricao());
         imovelExistente.setEndereco(imovel.getEndereco());
-        imovelExistente.setInquilino(imovel.getInquilino());
         Inquilino inquilino = inquilinoService.findById(idInquilino);
         imovelExistente.setInquilino(inquilino);
 

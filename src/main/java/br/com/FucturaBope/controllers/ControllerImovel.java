@@ -39,9 +39,9 @@ public class ControllerImovel {
         return ResponseEntity.ok().body(modelMapper.map(imovel, DtoImovel.class));
     }
 
-    @GetMapping
-    @Operation(summary = "Listar imóveis por inquilino", description = "Retorna uma lista de imóveis associados a um inquilino específico")
-    public ResponseEntity<List<DtoImovel>> findAllByInquilino(@RequestParam(value = "inquilino", defaultValue = "0") Integer idInquilino) {
+    @GetMapping("/por-inquilino")
+    @Operation(summary = "Listar imóveis por inquilino")
+    public ResponseEntity<List<DtoImovel>> findAllByInquilino( @RequestParam(value = "inquilino", defaultValue = "0") Integer idInquilino) {
         List<Imovel> list = serviceImovel.findAllByInquilinoId(idInquilino);
         return ResponseEntity.ok().body(list.stream()
                 .map(obj -> modelMapper.map(obj, DtoImovel.class))
@@ -50,9 +50,8 @@ public class ControllerImovel {
 
     @PostMapping
     @Operation(summary = "Criar novo imóvel", description = "Cadastra um novo imóvel no sistema, opcionalmente associando-o a um inquilino")
-    public ResponseEntity<DtoImovel> save(@RequestParam(value = "inquilino", defaultValue = "0") Integer idInquilino,
-                                          @RequestBody DtoImovel imovelDto) {
-        Imovel imovel = serviceImovel.save(idInquilino, modelMapper.map(imovelDto, Imovel.class));
+    public ResponseEntity<DtoImovel> save(@RequestBody DtoImovel imovelDto) {
+        Imovel imovel = serviceImovel.save(modelMapper.map(imovelDto, Imovel.class));
         return ResponseEntity.ok().body(modelMapper.map(imovel, DtoImovel.class));
     }
 

@@ -47,9 +47,8 @@ public class ServiceAluguel {
 
 
     public Aluguel save(DtoAluguel dto) {
-        if (dto.getValor() <= 0) {
-            throw new UnprocessableEntityException("Valor do aluguel inválido");
-        }
+        if (dto.getValor() == null || dto.getValor() <= 0)
+        { throw new UnprocessableEntityException("Valor do aluguel deve ser maior que zero"); }
 
         Imovel imovel = repositoryImovel.findById(dto.getImovelId())
                 .orElseThrow(() -> new ObjectNotFoundException("Imóvel não encontrado"));

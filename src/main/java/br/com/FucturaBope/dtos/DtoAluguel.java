@@ -1,14 +1,9 @@
 package br.com.FucturaBope.dtos;
 
 import br.com.FucturaBope.models.Aluguel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.modelmapper.ModelMapper;
 import java.util.Date;
 
 public class DtoAluguel {
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     private Integer id;
     private Double valor;

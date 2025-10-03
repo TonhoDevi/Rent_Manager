@@ -97,15 +97,17 @@ class ServiceImovelTest {
         Imovel novo = new Imovel();
         novo.setDescricao("Casa");
         novo.setEndereco("Rua B, 456");
-
-        when(inquilinoService.findById(1)).thenReturn(inquilino);
+        inquilino = new Inquilino();
+        inquilino.setId(1);
+        inquilino.setNome("Carlos Silva");
+        novo.setInquilino(inquilino);
         when(imovelRepository.save(any(Imovel.class))).thenAnswer(inv -> {
             Imovel i = inv.getArgument(0);
             i.setId(11);
             return i;
         });
 
-        Imovel result = serviceImovel.save(1, novo);
+        Imovel result = serviceImovel.save(novo);
 
         assertNotNull(result.getId());
         assertEquals("Carlos Silva", result.getInquilino().getNome());
